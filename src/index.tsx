@@ -67,7 +67,7 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
         }}>
             {dropdown}
         </DropdownContainer>}
-        {props.barrierDismissible && <div
+        {isOpen && props.barrierDismissible && <div
             onClick={() => setIsOpen(false)}
             style={{
                 position: 'fixed',
