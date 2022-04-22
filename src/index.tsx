@@ -6,7 +6,8 @@ interface DropdownAnythingProps {
     triggerBuilder: (isOpen: boolean, setIsOpen: (open: boolean) => any) => any;
     builder: (computed: any, close: () => any) => any;
     height?: number;
-    compute?: (rect: DOMRect) => any
+    compute?: (rect: DOMRect) => any;
+    barrierDismissible?: boolean;
 }
 
 const DropdownContainer = styled.div`
@@ -66,5 +67,14 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
         }}>
             {dropdown}
         </DropdownContainer>}
+        {props.barrierDismissible && <div
+            onClick={() => setIsOpen(false)}
+            style={{
+                top: '0',
+                bottom: '0',
+                left: '0',
+                right: '0',
+                zIndex: '998',
+            }}/>}
     </>
 };
