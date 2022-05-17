@@ -40,7 +40,11 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
     useEffect(() => {
         if (!isOpen) return;
         document.addEventListener('scroll', update, true);
-        return () => document.removeEventListener('scroll', update, true);
+        window.addEventListener('resize', update, true);
+        return () => {
+            document.removeEventListener('scroll', update, true);
+            document.removeEventListener('resize', update, true);
+        }
     }, [isOpen, update]);
 
     const rect = ref.current?.getBoundingClientRect();
@@ -76,6 +80,6 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
                 left: '0',
                 right: '0',
                 zIndex: '998',
-            }}/>}
+            }}/>}ake
     </>
 };
