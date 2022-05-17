@@ -80,6 +80,6 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
                 left: '0',
                 right: '0',
                 zIndex: '998',
-            }}/>}ake
+            }}/>}
     </>
 };
