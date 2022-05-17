@@ -30,9 +30,10 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
         setRerender(Math.random());
     }, []);
 
+    const dependencies = props.dependencies || [];
     useEffect(() => {
         update();
-    }, props.dependencies);
+    }, dependencies);
 
 
     useEffect(() => {
