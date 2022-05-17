@@ -4,6 +4,7 @@ interface DropdownAnythingProps {
     height?: number;
     compute?: (rect: DOMRect) => any;
     barrierDismissible?: boolean;
+    dependencies?: any[];
 }
 export declare const DropdownAnything: (props: DropdownAnythingProps) => JSX.Element;
 export {};

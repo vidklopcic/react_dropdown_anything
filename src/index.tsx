@@ -8,6 +8,7 @@ interface DropdownAnythingProps {
     height?: number;
     compute?: (rect: DOMRect) => any;
     barrierDismissible?: boolean;
+    dependencies?: any[];
 }
 
 const DropdownContainer = styled.div`
@@ -28,6 +29,10 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
         if (!ddRef.current || !ref.current) return;
         setRerender(Math.random());
     }, []);
+
+    useEffect(() => {
+        update();
+    }, props.dependencies);
 
 
     useEffect(() => {
