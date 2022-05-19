@@ -75,7 +75,7 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
         if (!ddRect || !trRect) return;
         const positionError = trRect.bottom - ddRect.top;
         if (positionError) {
-            setYOffset(positionError);
+            setYOffset(yOffset + positionError);
         }
     }, [rerender]);
 
