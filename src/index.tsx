@@ -13,8 +13,6 @@ interface DropdownAnythingProps {
 
 const DropdownContainer = styled.div`
   position: fixed;
-  width: 100%;
-  height: 100%;
   z-index: 999;
 `;
 
@@ -22,13 +20,13 @@ const TriggerContainer = styled.div`
 `;
 
 export const DropdownAnything = (props: DropdownAnythingProps) => {
-    const ref = useRef<HTMLDivElement>(null);
+    const trRef = useRef<HTMLDivElement>(null);
     const ddRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [_, setRerender] = useState(0);
+    const [rerender, setRerender] = useState(0);
 
     const update = useCallback(function () {
-        if (!ddRef.current || !ref.current) return;
+        if (!ddRef.current || !trRef.current) return;
         setRerender(Math.random());
     }, []);
 
@@ -39,11 +37,11 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
 
 
     useEffect(() => {
-        if (!ref.current || !isOpen) return;
+        if (!trRef.current || !isOpen) return;
         const resizeObserver = new ResizeObserver((entries) => update());
-        resizeObserver.observe(ref.current);
+        resizeObserver.observe(trRef.current);
         return () => resizeObserver.disconnect();
-    }, [isOpen, ref.current]);
+    }, [isOpen, trRef.current]);
 
     useEffect(() => {
         if (!isOpen) return;
@@ -55,8 +53,10 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
         }
     }, [isOpen, update]);
 
-    const rect = ref.current?.getBoundingClientRect();
-    const computed = isOpen && rect && props.compute && props.compute(rect);
+    const [yOffset, setYOffset] = useState(0);
+    let trRect = trRef.current?.getBoundingClientRect();
+    if (trRect && yOffset) trRect = new DOMRect(trRect.x, trRect.y + yOffset, trRect.width, trRect.height);
+    const computed = isOpen && trRect && props.compute && props.compute(trRect);
 
     const trigger = useMemo(
         () => props.triggerBuilder(isOpen, (v) => setIsOpen(v)),
@@ -68,25 +68,36 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
         [props.builder, computed]
     );
 
+    useEffect(() => {
+        // iOS keyboard fix
+        let trRect = trRef.current?.getBoundingClientRect();
+        let ddRect = ddRef.current?.getBoundingClientRect();
+        if (!ddRect || !trRect) return;
+        const positionError = trRect.bottom - ddRect.top;
+        if (positionError) {
+            setYOffset(positionError);
+        }
+    }, [rerender]);
+
     return <>
-        <TriggerContainer ref={ref}>
+        <TriggerContainer ref={trRef}>
             {trigger}
         </TriggerContainer>
-        {isOpen && rect && <DropdownContainer ref={ddRef}>
-            <div style={{
-                marginTop: rect.bottom + 'px',
-                marginLeft: rect.left + 'px',
-                width: rect.width + 'px',
-            }}>
-                {dropdown}
-            </div>
+        {isOpen && trRect && <DropdownContainer ref={ddRef} style={{
+            top: trRect.bottom + 'px',
+            left: trRect.left + 'px',
+            width: trRect.width + 'px',
+        }}>
+            {dropdown}
         </DropdownContainer>}
         {isOpen && props.barrierDismissible && <div
             onClick={() => setIsOpen(false)}
             style={{
                 position: 'fixed',
-                width: '100%',
-                height: '100%',
+                top: '0',
+                bottom: '0',
+                left: '0',
+                right: '0',
                 zIndex: '998',
             }}/>}
     </>
