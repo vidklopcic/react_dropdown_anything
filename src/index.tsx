@@ -13,6 +13,8 @@ interface DropdownAnythingProps {
 
 const DropdownContainer = styled.div`
   position: fixed;
+  width: 100%;
+  height: 100%;
   z-index: 999;
 `;
 
@@ -70,21 +72,21 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
         <TriggerContainer ref={ref}>
             {trigger}
         </TriggerContainer>
-        {isOpen && rect && <DropdownContainer ref={ddRef} style={{
-            top: rect.bottom + 'px',
-            left: rect.left + 'px',
-            width: rect.width + 'px',
-        }}>
-            {dropdown}
+        {isOpen && rect && <DropdownContainer ref={ddRef}>
+            <div style={{
+                marginTop: rect.bottom + 'px',
+                marginLeft: rect.left + 'px',
+                width: rect.width + 'px',
+            }}>
+                {dropdown}
+            </div>
         </DropdownContainer>}
         {isOpen && props.barrierDismissible && <div
             onClick={() => setIsOpen(false)}
             style={{
                 position: 'fixed',
-                top: '0',
-                bottom: '0',
-                left: '0',
-                right: '0',
+                width: '100%',
+                height: '100%',
                 zIndex: '998',
             }}/>}
     </>
