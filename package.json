@@ -1,6 +1,6 @@
 {
   "name": "dropdown_anything",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -22,9 +22,7 @@
   },
   "devDependencies": {
     "@types/node": "16.11.10",
-    "@types/react": "^17.0.37",
-    "@types/styled-components": "^5.1.25",
-    "styled-components": "^5.3.5"
+    "@types/react": "^17.0.37"
   },
   "dependencies": {
     "@types/react-dom": "^17.0.11"

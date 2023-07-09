@@ -1,5 +1,4 @@
-import React, {Ref, useCallback, useEffect, useMemo, useRef, useState} from "react";
-import styled from "styled-components";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 
 
 interface DropdownAnythingProps {
@@ -10,14 +9,6 @@ interface DropdownAnythingProps {
     barrierDismissible?: boolean;
     dependencies?: any[];
 }
-
-const DropdownContainer = styled.div`
-  position: fixed;
-  z-index: 999;
-`;
-
-const TriggerContainer = styled.div`
-`;
 
 export const DropdownAnything = (props: DropdownAnythingProps) => {
     const trRef = useRef<HTMLDivElement>(null);
@@ -80,16 +71,18 @@ export const DropdownAnything = (props: DropdownAnythingProps) => {
     }, [rerender]);
 
     return <>
-        <TriggerContainer ref={trRef}>
+        <div ref={trRef}>
             {trigger}
-        </TriggerContainer>
-        {isOpen && trRect && <DropdownContainer ref={ddRef} style={{
+        </div>
+        {isOpen && trRect && <div ref={ddRef} style={{
+            position: 'fixed',
+            zIndex: 999,
             top: trRect.bottom + 'px',
             left: trRect.left + 'px',
             width: trRect.width + 'px',
         }}>
             {dropdown}
-        </DropdownContainer>}
+        </div>}
         {isOpen && props.barrierDismissible && <div
             onClick={() => setIsOpen(false)}
             style={{
